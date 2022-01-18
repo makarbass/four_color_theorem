@@ -1,4 +1,6 @@
-WA  = 'Западная Австралия'
+import time
+
+WAS  = 'Западная Австралия'
 NT  = 'Северная территория'
 SA  = 'Южная Австралия'
 Q   = 'Квинсленд'
@@ -111,9 +113,9 @@ WY: {MT, SD, NE, CO, UT, ID},
 }
 
 australia = { T:   {V},
-              WA:  {NT, SA},
-              NT:  {WA, Q, SA},
-              SA:  {WA, NT, Q, NSW, V},
+              WAS:  {NT, SA},
+              NT:  {WAS, Q, SA},
+              SA:  {WAS, NT, Q, NSW, V},
               Q:   {NT, SA, NSW},
               NSW: {Q, SA, V},
               V:   {SA, NSW, T}
@@ -169,12 +171,15 @@ def solve(graph, colors, guesses, depth):
         assert(all((neigh not in guesses or guesses[neigh] != c) for neigh in graph[n]))
         guesses[n] = c
         print ("🌀 Попробуем " + c +" для " + n)
+        time.sleep(0.3)
         if solve(graph, colors, guesses, depth+1):
             print ("✅ Присвоим " + c + " для " + n)
+            time.sleep(0.3)
             return guesses
         else:
             del guesses[n]
             print ("⚠️ Не удается присвоить " +c+ " для " +n)
+            time.sleep(0.3)
     return None
 
 def solve_problem(graph, colors):
@@ -186,7 +191,7 @@ def solve_problem(graph, colors):
 
 
 usa = {n:neigh for n,neigh in usa.items() if neigh}
-colors  = {'красный', 'зеленый', 'синий', 'желтый'} 
+colors  = {'красный', 'зеленый', 'синий'} 
 
 solve_problem(australia, colors)
 solve_problem(usa, colors)
